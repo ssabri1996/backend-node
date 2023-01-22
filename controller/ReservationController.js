@@ -129,15 +129,10 @@ exports.createReservation = async(req, res) => {
 
     })
 
+    // if suit array not empty ==> then suit is booked
     if (villa.length != 0) {
         return res.status(400).json({ message: 'la date de reservation est deja existe !' })
     }
-
-
-
-
-
-
 
     await reservationModel.find({
             "roomName": req.body.name,
@@ -167,10 +162,6 @@ exports.createReservation = async(req, res) => {
                             $lt: endDate
                         }
                     },
-
-
-                    //////////
-
                     {
                         "start": {
                             $lt: endDate
@@ -184,14 +175,12 @@ exports.createReservation = async(req, res) => {
 
                 ]
             }]
-
         }).then(async resp => {
 
+            // if exist one reservation in this date intervale ===> suit is booked
                 if (resp.length != 0) {
                     return res.status(400).json({ message: 'la date de reservation est deja existe !' })
                 }
-
-
                 const user = new userModel({
                     first_name: req.body.first_name,
                     last_name: req.body.last_name,
@@ -258,9 +247,6 @@ exports.createReservation = async(req, res) => {
 
         )
         .catch(err => res.status(500).send(err))
-
-
-
 }
 
 // update reservation 
@@ -648,7 +634,7 @@ exports.getListReservation = async(req, res) => {
         }, ])
 
     .then(reservations => {
-        res.status(200).json(reservations)
+        res.status(200).json(reservations.slice(0,2))
     }).catch(err => {
         res.status(500).send(err)
     })
@@ -909,7 +895,6 @@ exports.getRoomsListByClienID = async(req, res) => {
         })
 }
 
-
 //create Personalize reservation menu
 exports.createPersoReservationMenu = async(req, res) => {
 
@@ -1055,8 +1040,6 @@ module.exports.getRoomsByNames = async(req, res) => {
 
 }
 
-
-
 //get reservation by id 
 exports.getRoomReservationById = async(req, res) => {
     let id = req.params.id;
@@ -1085,7 +1068,6 @@ exports.getRoomReservationById = async(req, res) => {
         res.status(500).send(err)
     })
 }
-
 
 //get Toatal price room reservation by id 
 exports.getTotalRoomPriceById = async(req, res) => {
@@ -1144,7 +1126,6 @@ exports.getTotalRoomPriceById = async(req, res) => {
         res.status(500).send(err)
     })
 }
-
 
 //check room reservation
 exports.checkRoomReservation = async(req, res) => {
@@ -1211,7 +1192,7 @@ exports.checkBookingEnligne = async(req, res) => {
 // En ligne reservation and send email 
 exports.reservationEnligneAndSendEmail = async(req, res) => {
 
-    //  console.log("email to sent>>>", req.body)
+     console.log("email to sent>>>", req.body)
 
 
     let mailOption = {
