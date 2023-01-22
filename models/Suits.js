@@ -3,7 +3,10 @@ const Schema = require('mongoose');
 
 const suitsSchema = new mongoose.Schema({
     title: { type: String, required: false },
-    price: { type: Number, required: true, unique: true },
+    price: { type: Number, required: true, validate : {
+        validator : Number.isInteger,
+        message   : '{VALUE} is not an integer value'
+      } },
     category: { type: Array, required: true },
     period: { type: String, required: false, default: false },
     gridimage: { type: String, required: false, default: false },
