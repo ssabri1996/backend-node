@@ -4,7 +4,8 @@ const Schema = require('mongoose');
 const sectionSchema = new mongoose.Schema({
     name: { type: String, required: false },
     index: { type: String, required: true, unique: true },
-    specs: { type: Array, required: true },
+    specsArray: { type: Array, required: false },
+    specsObj: { type: Array, required: false },
     isHide: { type: Boolean, required: false, default: false },
 }, {
     timestamps: {
