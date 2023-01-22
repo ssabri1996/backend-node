@@ -1,22 +1,21 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Node.js CI
 
 on:
+
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
-
+  
+  
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -26,6 +25,40 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
+    - run: npm i --force
     - run: npm run build --if-present
-    - run: npm test
+  deploy-via-sftp:
+    needs : build
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+          
+      - name: SFTP Deploy
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.1
+        with:
+          username: ${{ secrets.SERVER_USER }}
+          server: ${{ secrets.VPS_SERVER }}
+          port: 22 # default is 22
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+ 
+          
+          # will put all file under this path
+          local_path: ./* # default is ./*
+          # files will copy to under remote_path
+          remote_path: ${{ secrets.VPS_SERVER_REMOTE_PATH }}
+  restart-app :
+    needs : deploy-via-sftp
+    runs-on: ubuntu-latest
+    
+    steps :
+      - uses: actions/checkout@v3
+      - name: run via OPEN SSH Private Key
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+        
+          command: pm2 restart all
+          host: ${{ secrets.VPS_SERVER }}
+          username: ${{ secrets.SERVER_USER }}
+          password:  ${{ secrets.SERVER_PASS }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
