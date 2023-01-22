@@ -1,0 +1,1 @@
+{"_id":{"$oid":"62a1ce8d5165c4c7389274e4"},"articleList":[],"name":"Lait","date":"2022-06-09T10:42:10.761Z","clientID":{"$oid":"61d571126b09ba4f448955a3"},"depot":"","category":"","isDraft":false,"created_at":{"$date":{"$numberLong":"1654771341035"}},"updated_at":{"$date":{"$numberLong":"1654771341035"}},"__v":{"$numberInt":"0"}}

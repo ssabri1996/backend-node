@@ -1,0 +1,1 @@
+{"_id":{"$oid":"62a1d0505165c4c738927512"},"listFamily":[],"name":"Viandes rouges","img":"http://vps-1546f9aa.vps.ovh.net:3000/uploads/1654771791783-AB51F460-289F-4BA5-ADC2-2C032A8ACC06.jpeg","idDepot":{"$oid":"62a1cf845165c4c738927504"},"created_at":{"$date":{"$numberLong":"1654771792143"}},"updated_at":{"$date":{"$numberLong":"1654771792143"}},"__v":{"$numberInt":"0"}}

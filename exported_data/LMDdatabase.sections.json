@@ -1,0 +1,1 @@
+{"_id":{"$oid":"63cc15baa6931c8a35e00bda"},"specs":[{"name":"section-base-1","index":"section-base-1"}],"isHide":false,"name":"section-base-1","index":"section-base-1","created_at":{"$date":{"$numberLong":"1674319290762"}},"updated_at":{"$date":{"$numberLong":"1674319715126"}},"__v":{"$numberInt":"0"}}
