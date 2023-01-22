@@ -3,7 +3,7 @@ const Schema = require('mongoose');
 
 const sectionSchema = new mongoose.Schema({
     name: { type: String, required: false },
-    index: { type: String, required: true },
+    index: { type: String, required: true, unique: true },
     specs: { type: Array, required: true },
     isHide: { type: Boolean, required: false, default: false },
 }, {
