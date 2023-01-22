@@ -6,7 +6,7 @@ const suitsSchema = new mongoose.Schema({
     price: { type: Number, required: true, unique: true },
     category: { type: Array, required: true },
     period: { type: String, required: false, default: false },
-    gridimage: { type: Boolean, required: false, default: false },
+    gridimage: { type: String, required: false, default: false },
     listimage: { type: String, required: false, default: false },
     sliderimage: { type: String, required: false, default: false },
     text: { type: String, required: false, default: false },
