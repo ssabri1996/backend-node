@@ -19,9 +19,7 @@ app.use((req, res, next) => {
     next();
 })
 
-
 const PORT = process.env.PORT || 8080
-
 // configure middleware
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
@@ -44,8 +42,6 @@ app.use(passport.initialize());
 app.set('view engine', 'ejs')
 
 //Import Routes
-
-
 const authRoutes = require('./routes/auth');
 const reservationRoutes = require('./routes/reservation');
 const roomRoutes = require('./routes/room');
@@ -60,6 +56,7 @@ const typeRouters = require('./routes/type');
 const courseRouters = require('./routes/course');
 const inventaireRouters = require('./routes/inventaire');
 const sectionsRouters = require('./routes/sections');
+const suitsRouters = require('./routes/suits');
 
 // use routes
 app.use('/auth', authRoutes);
@@ -76,6 +73,7 @@ app.use('', typeRouters);
 app.use('', courseRouters);
 app.use('', inventaireRouters);
 app.use('', sectionsRouters);
+app.use('', suitsRouters);
 app.use('/uploads', express.static('uploads'));
 
 // echo msg for startup
