@@ -1,0 +1,288 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API",
+    "description": ""
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http", "https", "vps"
+  ],
+  "paths": {
+    "/suits": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "content":{
+          
+          "id": 1,
+          "title": "Bonneli",
+          "price": 350,
+          "period": "Nuit",
+          "category": [
+              1
+          ],
+          "gridimage": "assets/img/room/01.jpg",
+          "listimage": "assets/img/bg/04.jpg",
+          "sliderimage": "assets/img/room-slider/01.jpg",
+          "text": "Suite Vue sur le Jardin",
+          "longdesc": "<p>Isolez-vous en toute tranquillité dans cet espace lumineux où seul le chant des oiseaux vient interrompre le silence</p>",
+          "authors": [
+              1,
+              2
+          ],
+          "amenities": [
+            {
+                  "title": "Climatiseur",
+                  "icon": "fal fa-bath"
+              },
+              {
+                  "title": "Wi-Fi haut débit",
+                  "icon": "fal fa-wifi"
+              },
+              {
+                  "title": "Casier fort",
+                  "icon": "fal fa-key"
+              },
+              {
+                  "title": "Petit-déjeuner",
+                  "icon": "fal fa-cut"
+              },
+              {
+                  "title": "Cuisine",
+                  "icon": "fal fa-guitar"
+              },
+              {
+                  "title": "Sécurité intelligente",
+                  "icon": "fal fa-lock"
+              },
+              {
+                  "title": "Nettoyage",
+                  "icon": "fal fa-broom"
+              },
+              {
+                  "title": "Douche",
+                  "icon": "fal fa-Douche"
+              },
+              {
+                  "title": "24/7 Support en ligne",
+                  "icon": "fal fa-headphones-alt"
+              },
+  
+  
+              {
+                  "title": "Équipe d'experts",
+                  "icon": "fal fa-users"
+              },
+  
+              {
+                  "title": "Les serviettes",
+                  "icon": "fal fa-bus"
+              }
+          ],
+          "rules": [
+              "Chambre Single/ Haute saison : 280 DT/Nuit ",
+              "Chambre Single/ Basse saison : 210 DT/Nuit ",
+              "Chambre Double/ Basse saison : 280 DT/Nuit ",
+              "Chambre Double/ Haute saison : 350 DT/Nuit "
+  
+          ],
+          "cancellation": "Phasellus volutpat neque a tellus venenatis, a euismod augue facilisis. Fusce ut metus mattis, consequat metus nec, luctus lectus. Pellentesque orci quis hendrerit sed eu dolor. <strong>Cancel up</strong> to <strong>14 days</strong> to get a full refund",
+          "location": [
+              31.53912, -89.29163
+          ],
+          "offer": true
+      },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/suits/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/sections": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/sections/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

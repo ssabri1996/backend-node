@@ -5,11 +5,13 @@
     "main": "app.js",
     "scripts": {
         "dev": "nodemon app.js",
-        "start": "node app.js"
+        "start": "node app.js",
+        "swagger-autogen": "node swagger.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "and": "^0.0.3",
         "bcrypt": "^5.0.1",
         "body-parser": "^1.19.0",
         "cookie-parser": "^1.4.5",
@@ -25,6 +27,8 @@
         "nodemon": "^2.0.7",
         "passport": "^0.4.1",
         "passport-jwt": "^4.0.0",
-        "pm2": "^5.1.2"
+        "pm2": "^5.1.2",
+        "swagger-autogen": "^2.22.0",
+        "swagger-ui-express": "^4.6.0"
     }
 }

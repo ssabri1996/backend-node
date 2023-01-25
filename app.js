@@ -5,6 +5,8 @@ require('dotenv/config');
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const connectDB = require('./database/connection')
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
 // custom entrypoint
 const app = express();
 
@@ -80,5 +82,5 @@ app.use('/uploads', express.static('uploads'));
 app.get('/', (req, res) => {
     res.send('Node server running!')
 });
-
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.listen(PORT, () => { console.log(`Server is running on http://localhost:${PORT}`) })
