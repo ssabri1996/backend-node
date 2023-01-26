@@ -57,7 +57,7 @@ jobs:
         uses: garygrossgarten/github-action-ssh@release
         with:
         
-          command: pm2 restart all
+          command: cd backend && npm i && pm2 restart all
           host: ${{ secrets.VPS_SERVER }}
           username: ${{ secrets.SERVER_USER }}
           password:  ${{ secrets.SERVER_PASS }}
