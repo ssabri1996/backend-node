@@ -1253,7 +1253,7 @@ exports.reservationEnligneAndSendEmail = async(req, res) => {
      console.log("email to sent>>>", req.body)
     let mailOption = {
         from: process.env.EMAIL,
-        to: ['islemhmz1998@gmail.com'],
+        to: ['ichkeldar80@gmail.com'],
 	//cc: ['islemhmz1998@gmail.com'],
         subject: 'Reservation de chambre',
         html: `
