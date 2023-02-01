@@ -29,16 +29,11 @@ exports.list = async(req, res) => {
             suits[index]['history'] = data_array
         
     }
-    let response =[
-        {suit: suits[0], historique: suits[0]['history']},
-        {suit: suits[1], historique: suits[1]['history']},
-        {suit: suits[2], historique: suits[2]['history']},
-        {suit: suits[3], historique: suits[3]['history']},
-        {suit: suits[4], historique: suits[4]['history']},
-        {suit: suits[5], historique: suits[5]['history']},
-        {suit: suits[6], historique: suits[6]['history']},
-        {suit: suits[7], historique: suits[7]['history']}
-    ]
+    
+    let response =[]
+    suits.forEach(element => {
+        response.push({suit:element, history: element['history']})
+    });
     res.status(200).send(response) 
   } catch (error) {
       res.status(200).json({ error })
