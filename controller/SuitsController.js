@@ -1,12 +1,46 @@
 const suitsModel = require('../models/Suits');
-
+const reservationModel = require('../models/Reservation');
 // get all suitss
 exports.list = async(req, res) => {
   try {
       var suits = await suitsModel.find();
-      res.status(200).json(suits);
+      let filter_type = ['Marabou', 'Brecon', 'Ruppia', 'Ciconia', 'Colony', 'Bonelli', 'Cicogne', 'Amorpha']
+      let data_array = []
+   for (let index = 0; index < suits.length; index++) {
+        await reservationModel.find({
+            roomName: suits[index].title,
+            "isActive": true,
+            "type": "room"
+         })
+        .then(reservations => {
+            array = []
+            arrayOfRange = []
+            arrayToSend = [];
+            a = []
+            reservations.map((item) => {
+                    this.list1 = item.startFiltre
+                    this.list2 = item.endFiltre
+                    array.push(this.list1, this.list2)
+                    const range = dateRange(item.startFiltre, item.endFiltre, 1)
+                    arrayOfRange.push(range)
+                })
+                data_array =  arrayOfRange
+            })
+            suits[index]['history'] = data_array
+        
+    }
+    let response =[
+        {suit: suits[0], historique: suits[0]['history']},
+        {suit: suits[1], historique: suits[1]['history']},
+        {suit: suits[2], historique: suits[2]['history']},
+        {suit: suits[3], historique: suits[3]['history']},
+        {suit: suits[4], historique: suits[4]['history']},
+        {suit: suits[5], historique: suits[5]['history']},
+        {suit: suits[6], historique: suits[6]['history']},
+        {suit: suits[7], historique: suits[7]['history']}
+    ]
+    res.status(200).send(response) 
   } catch (error) {
-
       res.status(200).json({ error })
   }
 }
@@ -20,9 +54,27 @@ exports.getOne = (req, res) => {
               message: 'suits not found'
           })
       } else {
+       const reservation =  await reservationModel.find({
+            "roomName": data.title,
+            "isActive": true,
+            "type": "room"
+        })
+        array = []
+        arrayOfRange = []
+        arrayToSend = [];
+        a = []
+        const dateArray = [];
+        reservation.map((item) => {
+                this.list1 = item.startFiltre
+                this.list2 = item.endFiltre
+                array.push(this.list1, this.list2)
+                const range = dateRange(item.startFiltre, item.endFiltre, 1)
+                arrayOfRange.push(range)
+            })
           res.status(200).send({
               message: 'suits found successfully !',
-              suits: data
+              suits: data,
+              reservation_date : arrayOfRange
           });
       }
   }).catch(err => {
@@ -31,6 +83,19 @@ exports.getOne = (req, res) => {
           error: err
       })
   })
+
+}
+function dateRange(startDate, endDate, steps) {
+    const dateArray = [];
+    let currentDate = new Date(startDate);
+
+    while (currentDate <= new Date(endDate)) {
+        dateArray.push(new Date(currentDate));
+        // Use UTC date to prevent problems with time zones and DST
+        currentDate.setUTCDate(currentDate.getUTCDate() + steps);
+    }
+    return dateArray;
+
 
 }
 
