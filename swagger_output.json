@@ -5,8 +5,8 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
-  "basePath": "/",
+  "host": "https://www.heart-of-carthage-dubai.com",
+  "basePath": "/admin/me",
   "schemes": [
     "http", "https", "vps"
   ],
