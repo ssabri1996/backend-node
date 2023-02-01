@@ -32,7 +32,7 @@ exports.list = async(req, res) => {
     
     let response =[]
     suits.forEach(element => {
-        response.push({suit:element, history: element['history']})
+        response.push({suit:element, reservation_date: element['history']})
     });
     res.status(200).send(response) 
   } catch (error) {
