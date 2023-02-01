@@ -82,5 +82,5 @@ app.use('/uploads', express.static('uploads'));
 app.get('/admin/me', (req, res) => {
     res.send('Node server running!')
 });
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use('/admin/me/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.listen(PORT, () => { console.log(`Server is running on http://localhost:${PORT}`) })
