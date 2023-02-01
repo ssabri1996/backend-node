@@ -62,7 +62,7 @@ const suitsRouters = require('./routes/suits');
 
 // use routes
 app.use('/auth', authRoutes);
-app.use(', reservationRoutes);
+app.use('', reservationRoutes);
 app.use('/admin/me', roomRoutes);
 app.use('', platRoutes);
 app.use('', menuRoutes);
