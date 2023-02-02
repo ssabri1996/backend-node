@@ -647,10 +647,10 @@ exports.getListReservation = async(req, res) => {
 
 /* filter reservation by status */
 module.exports.getReservationByStatus = async(req, res) => {
-    const { color } = req.query;
-    if (color) {
+    const { room } = req.query;
+    if (room) {
         await reservationModel.find({
-                "filtercolor": color,
+                "roomName": room,
                 "isActive": true,
                 "type": "room"
             })
@@ -663,9 +663,7 @@ module.exports.getReservationByStatus = async(req, res) => {
 
             }, ])
             .then(async(reservations) => {
-
                 res.status(200).send(reservations)
-
             })
             .catch((errors) => {
                 res.status(500).send(errors);
@@ -691,9 +689,6 @@ module.exports.getReservationByStatus = async(req, res) => {
                 res.status(404).send(errors);
             });
     }
-
-
-
 }
 
 
@@ -1017,9 +1012,6 @@ exports.deletePersoMenu = async(req, res) => {
 //get list of rooms by names
 module.exports.getRoomsByNames = async(req, res) => {
     const { name } = req.query;
-
-
-
     if (name) {
         await reservationModel.find({
                 "roomName": name,
@@ -1029,19 +1021,12 @@ module.exports.getRoomsByNames = async(req, res) => {
             .populate('roomID')
             .populate('clientID')
             .then(async(reservations) => {
-
                 res.status(200).send(reservations)
-
             })
             .catch((errors) => {
                 res.status(500).send(errors);
             });
     }
-
-
-
-
-
 }
 
 //get reservation by id 
@@ -1164,7 +1149,7 @@ exports.checkBookingEnligne = async(req, res) => {
     //   console.log(startDate, endDate, room);
     let filter_type;
     if (room == 'all') {
-       filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonelli', 'Cicogne']
+       filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonnelli', 'Cicogne']
     } else {
        filter_type=[room]
     }
@@ -1202,12 +1187,9 @@ exports.checkBookingEnligneAllSuits = async(req, res) => {
     const { startDate } = req.body;
     const { endDate } = req.body;
     const { room } = req.body;
-    if (!startDate || !endDate || endDate < new Date(now).getDate() || startDate > endDate) {
-        return res.status(400).json({ message: "Input date invalide"}) 
-    }
     let filter_type;
     if (room == 'all') {
-       filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonelli', 'Cicogne']
+       filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonnelli', 'Cicogne']
     } else {
        filter_type=[room]
     }
@@ -1253,7 +1235,7 @@ exports.reservationEnligneAndSendEmail = async(req, res) => {
      console.log("email to sent>>>", req.body)
     let mailOption = {
         from: process.env.EMAIL,
-        to: ['ichkeldar80@gmail.com'],
+        to: ['islemhmz1998@gmail.com'],
 	//cc: ['islemhmz1998@gmail.com'],
         subject: 'Reservation de chambre',
         html: `
@@ -1371,9 +1353,10 @@ exports.contacteEmail = async(req, res) => {
 //get list of rooms reservation site darichkeul 
 exports.getListReservationRoom = async(req, res) => {
     const { room } = req.query;
+    const { front } = req.query;
      let filter_type;
      if (room == 'all') {
-        filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonelli', 'Cicogne']
+        filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonnelli', 'Cicogne']
      } else {
         filter_type=[room]
      }
@@ -1395,7 +1378,24 @@ exports.getListReservationRoom = async(req, res) => {
                 const range = dateRange(item.startFiltre, item.endFiltre, 1)
                 arrayOfRange.push(range)
             })
-        res.status(200).json(Array.from(new Set(arrayOfRange)))
+            if (front) {
+
+                let ts = Date.now();
+                let date_ob = new Date(ts);
+                console.log(date_ob)
+                let front_date_array = [];
+                Array.from(new Set(arrayOfRange)).forEach(element => {
+                    var dates = element.filter(date => date >= date_ob)
+                    if( dates.length > 0) {
+                        front_date_array.push(dates)
+                    }
+                });
+                res.status(200).json(front_date_array)
+            } else {
+                res.status(200).json(Array.from(new Set(arrayOfRange)))
+            }
+            // 
+        
     }).catch(err => {
         res.status(500).send(err)
     })
