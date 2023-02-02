@@ -5,10 +5,10 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "localhost:3000",
-  "basePath": "/",
+  "host": "www.heart-of-carthage-dubai.com",
+  "basePath": "/admin/me",
   "schemes": [
-    "http", "https", "vps"
+    "https"
   ],
   "paths": {
     "/suits": {
@@ -23,86 +23,7 @@
       },
       "post": {
         "description": "",
-        "content":{
-          
-          "id": 1,
-          "title": "Bonneli",
-          "price": 350,
-          "period": "Nuit",
-          "category": [
-              1
-          ],
-          "gridimage": "assets/img/room/01.jpg",
-          "listimage": "assets/img/bg/04.jpg",
-          "sliderimage": "assets/img/room-slider/01.jpg",
-          "text": "Suite Vue sur le Jardin",
-          "longdesc": "<p>Isolez-vous en toute tranquillité dans cet espace lumineux où seul le chant des oiseaux vient interrompre le silence</p>",
-          "authors": [
-              1,
-              2
-          ],
-          "amenities": [
-            {
-                  "title": "Climatiseur",
-                  "icon": "fal fa-bath"
-              },
-              {
-                  "title": "Wi-Fi haut débit",
-                  "icon": "fal fa-wifi"
-              },
-              {
-                  "title": "Casier fort",
-                  "icon": "fal fa-key"
-              },
-              {
-                  "title": "Petit-déjeuner",
-                  "icon": "fal fa-cut"
-              },
-              {
-                  "title": "Cuisine",
-                  "icon": "fal fa-guitar"
-              },
-              {
-                  "title": "Sécurité intelligente",
-                  "icon": "fal fa-lock"
-              },
-              {
-                  "title": "Nettoyage",
-                  "icon": "fal fa-broom"
-              },
-              {
-                  "title": "Douche",
-                  "icon": "fal fa-Douche"
-              },
-              {
-                  "title": "24/7 Support en ligne",
-                  "icon": "fal fa-headphones-alt"
-              },
-  
-  
-              {
-                  "title": "Équipe d'experts",
-                  "icon": "fal fa-users"
-              },
-  
-              {
-                  "title": "Les serviettes",
-                  "icon": "fal fa-bus"
-              }
-          ],
-          "rules": [
-              "Chambre Single/ Haute saison : 280 DT/Nuit ",
-              "Chambre Single/ Basse saison : 210 DT/Nuit ",
-              "Chambre Double/ Basse saison : 280 DT/Nuit ",
-              "Chambre Double/ Haute saison : 350 DT/Nuit "
-  
-          ],
-          "cancellation": "Phasellus volutpat neque a tellus venenatis, a euismod augue facilisis. Fusce ut metus mattis, consequat metus nec, luctus lectus. Pellentesque orci quis hendrerit sed eu dolor. <strong>Cancel up</strong> to <strong>14 days</strong> to get a full refund",
-          "location": [
-              31.53912, -89.29163
-          ],
-          "offer": true
-      },
+        "parameters": [],
         "responses": {
           "200": {
             "description": "OK"
@@ -280,6 +201,928 @@
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/check/room": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "room",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "front",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/basic/menus": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/menus": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/filter": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "room",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/rooms": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/check": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/reservations/total/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "example": "any"
+                },
+                "last_name": {
+                  "example": "any"
+                },
+                "number_phone": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                },
+                "backgroundColor": {
+                  "example": "any"
+                },
+                "other": {
+                  "example": "any"
+                },
+                "status_room": {
+                  "example": "any"
+                },
+                "SINGLE_BAS_SAISON": {
+                  "example": "any"
+                },
+                "DOUBLE_BAS_SAISON": {
+                  "example": "any"
+                },
+                "SINGLE_HAUTE_SAISON": {
+                  "example": "any"
+                },
+                "DOUBLE_HAUTE_SAISON": {
+                  "example": "any"
+                },
+                "roomType": {
+                  "example": "any"
+                },
+                "status_reservation": {
+                  "example": "any"
+                },
+                "number_children": {
+                  "example": "any"
+                },
+                "last": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                },
+                "extra": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                },
+                "startDate": {
+                  "example": "any"
+                },
+                "endDate": {
+                  "example": "any"
+                },
+                "startFiltre": {
+                  "example": "any"
+                },
+                "endFiltre": {
+                  "example": "any"
+                },
+                "number_adulte": {
+                  "example": "any"
+                },
+                "number_persons": {
+                  "example": "any"
+                },
+                "number_days": {
+                  "example": "any"
+                },
+                "tarifType": {
+                  "example": "any"
+                },
+                "remark": {
+                  "example": "any"
+                },
+                "priceTotal": {
+                  "example": "any"
+                },
+                "remiseTotal": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "first_name": {
+                  "example": "any"
+                },
+                "last_name": {
+                  "example": "any"
+                },
+                "number_phone": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "backgroundColor": {
+                  "example": "any"
+                },
+                "other": {
+                  "example": "any"
+                },
+                "status_room": {
+                  "example": "any"
+                },
+                "SINGLE_BAS_SAISON": {
+                  "example": "any"
+                },
+                "DOUBLE_BAS_SAISON": {
+                  "example": "any"
+                },
+                "SINGLE_HAUTE_SAISON": {
+                  "example": "any"
+                },
+                "DOUBLE_HAUTE_SAISON": {
+                  "example": "any"
+                },
+                "roomType": {
+                  "example": "any"
+                },
+                "status_reservation": {
+                  "example": "any"
+                },
+                "number_children": {
+                  "example": "any"
+                },
+                "last": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                },
+                "extra": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                },
+                "startDate": {
+                  "example": "any"
+                },
+                "endDate": {
+                  "example": "any"
+                },
+                "startFiltre": {
+                  "example": "any"
+                },
+                "endFiltre": {
+                  "example": "any"
+                },
+                "number_adulte": {
+                  "example": "any"
+                },
+                "number_persons": {
+                  "example": "any"
+                },
+                "number_days": {
+                  "example": "any"
+                },
+                "tarifType": {
+                  "example": "any"
+                },
+                "remark": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/menusta/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "first_name": {
+                  "example": "any"
+                },
+                "last_name": {
+                  "example": "any"
+                },
+                "number_phone": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "type": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                },
+                "number_guests": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                },
+                "startDate": {
+                  "example": "any"
+                },
+                "typeRepas": {
+                  "example": "any"
+                },
+                "number_heure": {
+                  "example": "any"
+                },
+                "menuID": {
+                  "example": "any"
+                },
+                "nb_eau": {
+                  "example": "any"
+                },
+                "nb_soda": {
+                  "example": "any"
+                },
+                "remise": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/menuperso/{id}": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "menuList": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                },
+                "isPersonalize": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                },
+                "entrePerso": {
+                  "example": "any"
+                },
+                "number_heure": {
+                  "example": "any"
+                },
+                "remise": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/menu/{id}": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/reservations/menu/perso": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "menuList": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                },
+                "isPersonalize": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                },
+                "entrePerso": {
+                  "example": "any"
+                },
+                "number_heure": {
+                  "example": "any"
+                },
+                "remise": {
+                  "example": "any"
+                },
+                "clientID": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/reservations/menu": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "number_phone": {
+                  "example": "any"
+                },
+                "type": {
+                  "example": "any"
+                },
+                "status": {
+                  "example": "any"
+                },
+                "number_guests": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                },
+                "startDate": {
+                  "example": "any"
+                },
+                "menuID": {
+                  "example": "any"
+                },
+                "number_heure": {
+                  "example": "any"
+                },
+                "entreSta": {
+                  "example": "any"
+                },
+                "nb_eau": {
+                  "example": "any"
+                },
+                "nb_soda": {
+                  "example": "any"
+                },
+                "remise": {
+                  "example": "any"
+                },
+                "first_name": {
+                  "example": "any"
+                },
+                "last_name": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/booking": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "startDate": {
+                  "example": "any"
+                },
+                "endDate": {
+                  "example": "any"
+                },
+                "room": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/booking/all": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "startDate": {
+                  "example": "any"
+                },
+                "endDate": {
+                  "example": "any"
+                },
+                "room": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/send": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/contacte": {
+      "post": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }

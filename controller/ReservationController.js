@@ -1,10 +1,12 @@
 const nodemailer = require("nodemailer");
 const reservationModel = require('../models/Reservation');
+const suitsModel = require('../models/Suits');
 const userModel = require('../models/User');
 const roomModel = require('../models/Room');
 const menuModel = require('../models/Menu');
 const platModel = require('../models/Plat');
 const { ObjectID } = require("mongodb");
+const { now } = require("mongoose");
 
 
 
@@ -230,10 +232,12 @@ exports.createReservation = async(req, res) => {
                             filtercolor: req.body.backgroundColor
                         })
                         newRes.save().then(data => {
+                            reservationEnligneAndSendEmail(req,res)
                             res.status(201).json({
                                 message: "chambre reserver avec success",
                                 data: data
                             })
+
                         }).catch(err => {
                             res.status(500).send(err)
                         })
@@ -643,10 +647,10 @@ exports.getListReservation = async(req, res) => {
 
 /* filter reservation by status */
 module.exports.getReservationByStatus = async(req, res) => {
-    const { color } = req.query;
-    if (color) {
+    const { room } = req.query;
+    if (room) {
         await reservationModel.find({
-                "filtercolor": color,
+                "roomName": room,
                 "isActive": true,
                 "type": "room"
             })
@@ -659,9 +663,7 @@ module.exports.getReservationByStatus = async(req, res) => {
 
             }, ])
             .then(async(reservations) => {
-
                 res.status(200).send(reservations)
-
             })
             .catch((errors) => {
                 res.status(500).send(errors);
@@ -687,9 +689,6 @@ module.exports.getReservationByStatus = async(req, res) => {
                 res.status(404).send(errors);
             });
     }
-
-
-
 }
 
 
@@ -1013,9 +1012,6 @@ exports.deletePersoMenu = async(req, res) => {
 //get list of rooms by names
 module.exports.getRoomsByNames = async(req, res) => {
     const { name } = req.query;
-
-
-
     if (name) {
         await reservationModel.find({
                 "roomName": name,
@@ -1025,19 +1021,12 @@ module.exports.getRoomsByNames = async(req, res) => {
             .populate('roomID')
             .populate('clientID')
             .then(async(reservations) => {
-
                 res.status(200).send(reservations)
-
             })
             .catch((errors) => {
                 res.status(500).send(errors);
             });
     }
-
-
-
-
-
 }
 
 //get reservation by id 
@@ -1158,7 +1147,12 @@ exports.checkBookingEnligne = async(req, res) => {
     const { endDate } = req.body;
     const { room } = req.body;
     //   console.log(startDate, endDate, room);
-
+    let filter_type;
+    if (room == 'all') {
+       filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonnelli', 'Cicogne']
+    } else {
+       filter_type=[room]
+    }
     await reservationModel.find({
         "roomName": room,
         "isActive": true,
@@ -1188,16 +1182,60 @@ exports.checkBookingEnligne = async(req, res) => {
 
 }
 
+// check all reservation and return available suits
+exports.checkBookingEnligneAllSuits = async(req, res) => {
+    const { startDate } = req.body;
+    const { endDate } = req.body;
+    const { room } = req.body;
+    let filter_type;
+    if (room == 'all') {
+       filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonnelli', 'Cicogne']
+    } else {
+       filter_type=[room]
+    }
+    await reservationModel.find({
+        "roomName": filter_type,
+        "isActive": true,
+        $and: [{
+            $or: [{
+                     "end": {$gte: startDate, $lte: endDate},
+                },
+		    {
+                    "start": {$gte: startDate, $lte: endDate},
+       
+                },
+		    {
+			"start": {$lte: startDate},
+			 "end": { $gte: endDate}
+		}
+            ]
+        }]
+
+    }).then(async resp => {
+        let array_suits = [];
+        resp.forEach(element => {
+            array_suits.push(element.roomName)
+        });
+        let array_suits_filter = Array.from(new Set(array_suits))
+        const available_suits = await suitsModel.find({
+        title: { $nin : array_suits_filter }})
+        
+        if (available_suits.length == 0) {
+            return res.status(400).json({ message: "Aucun suite n'est disponible !", available_suits })
+        } else {
+            return res.status(201).json({ message: 'la date est disponible !', available_suits })
+        }
+    })
+
+}
+
 
 // En ligne reservation and send email 
 exports.reservationEnligneAndSendEmail = async(req, res) => {
-
      console.log("email to sent>>>", req.body)
-
-
     let mailOption = {
         from: process.env.EMAIL,
-        to: [req.body.email],
+        to: ['islemhmz1998@gmail.com'],
 	//cc: ['islemhmz1998@gmail.com'],
         subject: 'Reservation de chambre',
         html: `
@@ -1315,13 +1353,18 @@ exports.contacteEmail = async(req, res) => {
 //get list of rooms reservation site darichkeul 
 exports.getListReservationRoom = async(req, res) => {
     const { room } = req.query;
-    // console.log(room)
+    const { front } = req.query;
+     let filter_type;
+     if (room == 'all') {
+        filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonnelli', 'Cicogne']
+     } else {
+        filter_type=[room]
+     }
     await reservationModel.find({
         type: 'room',
         isActive: true,
-        roomName: room
+        roomName: { $in : filter_type }
     })
-
     .then(reservations => {
         array = []
         arrayOfRange = []
@@ -1332,29 +1375,27 @@ exports.getListReservationRoom = async(req, res) => {
                 this.list1 = item.startFiltre
                 this.list2 = item.endFiltre
                 array.push(this.list1, this.list2)
-                    // console.log("array>>>", array)
                 const range = dateRange(item.startFiltre, item.endFiltre, 1)
-                    //console.log("range>>>", range)
                 arrayOfRange.push(range)
-                    /* arrayOfRange.map(item => {
-                         arrayToSend.push(item)
-                         item.map(async data => {
-                             console.log("item>>>>", data)
-                             
-
-
-
-
-
-
-                         })
-
-                         console.log("length>>> ", arrayToSend.length)
-
-                     })*/
             })
-            //  console.log("array2>>>", array)
-        res.status(200).json(arrayOfRange)
+            if (front) {
+
+                let ts = Date.now();
+                let date_ob = new Date(ts);
+                console.log(date_ob)
+                let front_date_array = [];
+                Array.from(new Set(arrayOfRange)).forEach(element => {
+                    var dates = element.filter(date => date >= date_ob)
+                    if( dates.length > 0) {
+                        front_date_array.push(dates)
+                    }
+                });
+                res.status(200).json(front_date_array)
+            } else {
+                res.status(200).json(Array.from(new Set(arrayOfRange)))
+            }
+            // 
+        
     }).catch(err => {
         res.status(500).send(err)
     })
@@ -1368,18 +1409,8 @@ function dateRange(startDate, endDate, steps) {
     while (currentDate <= new Date(endDate)) {
         dateArray.push(new Date(currentDate));
         // Use UTC date to prevent problems with time zones and DST
-
         currentDate.setUTCDate(currentDate.getUTCDate() + steps);
-        //  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        // currentDate.toLocaleDateString("en-US")
-        //currentDate = formatDate(currentDate, 'yyyy-MM-dd', 'en') + steps
-
     }
-
-    // this.allDates = dateArray;
-
-    // console.log("allDates>>>",this.allDates);
-    // console.log("dateArray>>>", dateArray);
     return dateArray;
 
 

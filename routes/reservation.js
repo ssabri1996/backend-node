@@ -55,6 +55,7 @@ router.post('/reservations/menu', auth, reservationController.createReservationM
 
 // new api to chech booking en linge
 router.post('/booking', reservationController.checkBookingEnligne);
+router.post('/booking/all', reservationController.checkBookingEnligneAllSuits);
 
 // En ligne reservation and send email
 router.post('/send', reservationController.reservationEnligneAndSendEmail);
