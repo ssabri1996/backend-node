@@ -2,15 +2,26 @@ const suitsModel = require('../models/Suits');
 const reservationModel = require('../models/Reservation');
 // get all suitss
 exports.list = async(req, res) => {
+    const { today } = req.query;
   try {
       var suits = await suitsModel.find();
-      let filter_type = ['Marabou', 'Brecon', 'Ruppia', 'Ciconia', 'Colony', 'Bonelli', 'Cicogne', 'Amorpha']
+      let filter_type = []
+      suits.forEach(element => {
+        filter_type.push(element.title)
+    });
+    let currentDate;
+    if (today){
+        currentDate = new Date().toISOString();
+    } else { currentDate = '' }
+    
+    console.log(today)
       let data_array = []
    for (let index = 0; index < suits.length; index++) {
         await reservationModel.find({
             roomName: suits[index].title,
             "isActive": true,
-            "type": "room"
+            "type": "room",
+            "start": { $gte: currentDate },
          })
         .then(reservations => {
             array = []
@@ -26,13 +37,12 @@ exports.list = async(req, res) => {
                 })
                 data_array =  arrayOfRange
             })
-            suits[index]['history'] = data_array
-        
+            suits[index]['history'] = data_array   
     }
     
     let response =[]
     suits.forEach(element => {
-        response.push({suit:element, reservation_date: element['history']})
+        response.push({suit:element, history: element['history']})
     });
     res.status(200).send(response) 
   } catch (error) {
