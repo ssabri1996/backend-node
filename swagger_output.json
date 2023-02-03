@@ -10,11 +10,17 @@
   "schemes": [
     "https"
   ],
-  "paths": {
+    "paths": {
     "/suits": {
       "get": {
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "today",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
