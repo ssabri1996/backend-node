@@ -11,7 +11,7 @@ const suitsSchema = new mongoose.Schema({
     period: { type: String, required: false, default: false },
     gridimage: { type: String, required: false, default: false },
     listimage: { type: String, required: false, default: false },
-    sliderimage: { type: String, required: false, default: false },
+    sliderimage: { type: Array, required: false },
     text: { type: String, required: false, default: false },
     longdesc: { type: String, required: false, default: false },
     authors: { type: Array, required: false, default: false },

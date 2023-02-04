@@ -59,6 +59,7 @@ const courseRouters = require('./routes/course');
 const inventaireRouters = require('./routes/inventaire');
 const sectionsRouters = require('./routes/sections');
 const suitsRouters = require('./routes/suits');
+const demandeRouters = require('./routes/demande');
 
 // use routes
 app.use('/auth', authRoutes);
@@ -76,6 +77,7 @@ app.use('/admin/me', courseRouters);
 app.use('/admin/me', inventaireRouters);
 app.use('/admin/me', sectionsRouters);
 app.use('/admin/me', suitsRouters);
+app.use('/admin/me', demandeRouters);
 app.use('/uploads', express.static('uploads'));
 
 // echo msg for startup

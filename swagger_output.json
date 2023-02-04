@@ -5,16 +5,22 @@
     "title": "REST API",
     "description": ""
   },
-  "host": "www.heart-of-carthage-dubai.com",
+  "host": "localhost:3030",
   "basePath": "/admin/me",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/suits": {
       "get": {
         "description": "",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "today",
+            "in": "query",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -201,6 +207,144 @@
           },
           "500": {
             "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/demande": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "first_name": {
+                  "example": "any"
+                },
+                "last_name": {
+                  "example": "any"
+                },
+                "number_phone": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "backgroundColor": {
+                  "example": "any"
+                },
+                "other": {
+                  "example": "any"
+                },
+                "status_room": {
+                  "example": "any"
+                },
+                "SINGLE_BAS_SAISON": {
+                  "example": "any"
+                },
+                "DOUBLE_BAS_SAISON": {
+                  "example": "any"
+                },
+                "SINGLE_HAUTE_SAISON": {
+                  "example": "any"
+                },
+                "DOUBLE_HAUTE_SAISON": {
+                  "example": "any"
+                },
+                "roomType": {
+                  "example": "any"
+                },
+                "status_reservation": {
+                  "example": "any"
+                },
+                "number_children": {
+                  "example": "any"
+                },
+                "last": {
+                  "example": "any"
+                },
+                "comment": {
+                  "example": "any"
+                },
+                "extra": {
+                  "example": "any"
+                },
+                "price": {
+                  "example": "any"
+                },
+                "startDate": {
+                  "example": "any"
+                },
+                "endDate": {
+                  "example": "any"
+                },
+                "startFiltre": {
+                  "example": "any"
+                },
+                "endFiltre": {
+                  "example": "any"
+                },
+                "number_adulte": {
+                  "example": "any"
+                },
+                "number_persons": {
+                  "example": "any"
+                },
+                "number_days": {
+                  "example": "any"
+                },
+                "tarifType": {
+                  "example": "any"
+                },
+                "remark": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/demande/{id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }

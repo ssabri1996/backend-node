@@ -1147,12 +1147,14 @@ exports.checkBookingEnligne = async(req, res) => {
     const { endDate } = req.body;
     const { room } = req.body;
     //   console.log(startDate, endDate, room);
-    let filter_type;
-    if (room == 'all') {
-       filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonnelli', 'Cicogne']
-    } else {
-       filter_type=[room]
-    }
+    var suits = await suitsModel.find();
+      let filter_type = []
+      suits.forEach(element => {
+        filter_type.push(element.title)
+    });
+    if (room !== 'all') {
+        filter_type=[room]
+    } 
     await reservationModel.find({
         "roomName": room,
         "isActive": true,
@@ -1187,14 +1189,16 @@ exports.checkBookingEnligneAllSuits = async(req, res) => {
     const { startDate } = req.body;
     const { endDate } = req.body;
     const { room } = req.body;
-    let filter_type;
-    if (room == 'all') {
-       filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonnelli', 'Cicogne']
-    } else {
-       filter_type=[room]
+    var suits = await suitsModel.find();
+      let filter_type = []
+      suits.forEach(element => {
+        filter_type.push(element.title)
+    });
+    if (room !== 'all') {
+        filter_type=[room]
     }
     await reservationModel.find({
-        "roomName": filter_type,
+        "roomName": { $in : filter_type },
         "isActive": true,
         $and: [{
             $or: [{
@@ -1354,10 +1358,12 @@ exports.contacteEmail = async(req, res) => {
 exports.getListReservationRoom = async(req, res) => {
     const { room } = req.query;
     const { front } = req.query;
-     let filter_type;
-     if (room == 'all') {
-        filter_type = ['Marabou', 'Brecon', 'Amorpha', 'Ruppia', 'Ciconia', 'Colony', 'Bonnelli', 'Cicogne']
-     } else {
+    var suits = await suitsModel.find();
+    let filter_type = []
+    suits.forEach(element => {
+      filter_type.push(element.title)
+  });
+     if (room !== 'all') {
         filter_type=[room]
      }
     await reservationModel.find({
