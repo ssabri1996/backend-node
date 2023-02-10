@@ -1190,13 +1190,14 @@ exports.checkBookingEnligneAllSuits = async(req, res) => {
     const { endDate } = req.body;
     const { room } = req.body;
     var suits = await suitsModel.find();
-      let filter_type = []
+      let filter_type = ["Toute la villa"]
       suits.forEach(element => {
         filter_type.push(element.title)
     });
     if (room !== 'all') {
-        filter_type=[room]
+        filter_type=[room, "Toute la villa"]
     }
+
     await reservationModel.find({
         "roomName": { $in : filter_type },
         "isActive": true,
@@ -1359,7 +1360,7 @@ exports.getListReservationRoom = async(req, res) => {
     const { room } = req.query;
     const { front } = req.query;
     var suits = await suitsModel.find();
-    let filter_type = []
+    let filter_type = ['Toute la villa']
     suits.forEach(element => {
       filter_type.push(element.title)
   });
