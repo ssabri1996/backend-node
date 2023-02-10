@@ -63,26 +63,26 @@ const demandeRouters = require('./routes/demande');
 
 // use routes
 app.use('/auth', authRoutes);
-app.use('/admin/me', reservationRoutes);
-app.use('/admin/me', roomRoutes);
+app.use('/', reservationRoutes);
+app.use('/', roomRoutes);
 app.use('v', platRoutes);
-app.use('/admin/me', menuRoutes);
-app.use('/admin/me', userRoutes);
-app.use('/admin/me', depotRoutes);
-app.use('/admin/me', categoryRouters);
-app.use('/admin/me', familyRouters);
-app.use('/admin/me', articleRouters);
-app.use('/admin/me', typeRouters);
-app.use('/admin/me', courseRouters);
-app.use('/admin/me', inventaireRouters);
-app.use('/admin/me', sectionsRouters);
-app.use('/admin/me', suitsRouters);
-app.use('/admin/me', demandeRouters);
+app.use('/', menuRoutes);
+app.use('/', userRoutes);
+app.use('/', depotRoutes);
+app.use('/', categoryRouters);
+app.use('/', familyRouters);
+app.use('/', articleRouters);
+app.use('/', typeRouters);
+app.use('/', courseRouters);
+app.use('/', inventaireRouters);
+app.use('/', sectionsRouters);
+app.use('/', suitsRouters);
+app.use('/', demandeRouters);
 app.use('/uploads', express.static('uploads'));
 
 // echo msg for startup
-app.get('/admin/me', (req, res) => {
+app.get('/', (req, res) => {
     res.send('Node server running!')
 });
-app.use('/admin/me/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.listen(PORT, () => { console.log(`Server is running on http://localhost:${PORT}`) })
