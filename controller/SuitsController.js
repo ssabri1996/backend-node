@@ -18,7 +18,7 @@ exports.list = async(req, res) => {
       let data_array = []
    for (let index = 0; index < suits.length; index++) {
         await reservationModel.find({
-            roomName: suits[index].title,
+            roomName: { $in : [suits[index].title, 'Toute la villa'] },
             "isActive": true,
             "type": "room",
             "start": { $gte: currentDate },
@@ -60,7 +60,7 @@ exports.getOne = (req, res) => {
           })
       } else {
        const reservation =  await reservationModel.find({
-            "roomName": data.title,
+            "roomName": { $in : [data.title, 'Toute la villa'] },
             "isActive": true,
             "type": "room"
         })
