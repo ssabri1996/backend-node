@@ -1238,13 +1238,13 @@ exports.checkBookingEnligneAllSuits = async(req, res) => {
 // En ligne reservation and send email 
 exports.reservationEnligneAndSendEmail = async(req, res) => {
      console.log("email to sent>>>", req.body)
-     var text= JSON.stringify(req.body.JSON())
+     var text= JSON.stringify(req.body)
     let mailOption = {
         from: process.env.EMAIL,
         to: ['ichkeldar80@gmail.com'],
 	cc: ['ha9.0bib90@gmail.com'],
         subject: 'Reservation de chambre',
-        html:
+        text: text
         `
         <div><h2>Les informations du client</h2>
         <pre>Nom: ${req.body.nom}</pre>
