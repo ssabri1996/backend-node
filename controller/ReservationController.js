@@ -1238,25 +1238,23 @@ exports.checkBookingEnligneAllSuits = async(req, res) => {
 // En ligne reservation and send email 
 exports.reservationEnligneAndSendEmail = async(req, res) => {
      console.log("email to sent>>>", req.body)
-     var text= JSON.stringify(req.body)
     let mailOption = {
         from: process.env.EMAIL,
         to: ['ichkeldar80@gmail.com'],
 	cc: ['ha9.0bib90@gmail.com'],
         subject: 'Reservation de chambre',
-        text: text
+        html: 
         `
         <div><h2>Les informations du client</h2>
         <pre>Nom: ${req.body.nom}</pre>
-//         <pre>Prenom: ${req.body.prenom}</pre>
-//         <pre>la date d'arriver: ${req.body.checkin}</pre>
-//         <pre>la date de depart: ${req.body.checkout}</pre>
-//         <pre>le nom de la chambre: ${req.body.room}</pre>
-//         <pre>Type de la chambre: ${req.body.type}</pre>
-//         <pre>Le nombre de personne: ${req.body.number_persone}</pre>
-//         <pre>Email du client: ${req.body.email}</pre>
-//         <pre>Le numero de téléphone: ${req.body.phone_number}</pre>
-	<pre> Description: ${text} </pre>
+         <pre>Prenom: ${req.body.prenom}</pre>
+         <pre>la date d'arriver: ${req.body.checkin}</pre>
+         <pre>la date de depart: ${req.body.checkout}</pre>
+         <pre>le nom de la chambre: ${req.body.room}</pre>
+         <pre>Type de la chambre: ${req.body.type}</pre>
+         <pre>Le nombre de personne: ${req.body.number_persone}</pre>
+         <pre>Email du client: ${req.body.email}</pre>
+         <pre>Le numero de téléphone: ${req.body.phone_number}</pre>
         </div>
        `
     }
