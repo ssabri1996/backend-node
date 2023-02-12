@@ -1014,7 +1014,7 @@ module.exports.getRoomsByNames = async(req, res) => {
     const { name } = req.query;
     if (name) {
         await reservationModel.find({
-                "roomName": name,
+                "roomName": {$in:[name, ]} ,
                 "isActive": true,
                 "type": "room"
             })
@@ -1238,25 +1238,26 @@ exports.checkBookingEnligneAllSuits = async(req, res) => {
 // En ligne reservation and send email 
 exports.reservationEnligneAndSendEmail = async(req, res) => {
      console.log("email to sent>>>", req.body)
+     var text= JSON.stringify(req.body.JSON())
     let mailOption = {
         from: process.env.EMAIL,
-        to: ['islemhmz1998@gmail.com'],
-	//cc: ['islemhmz1998@gmail.com'],
+        to: ['ichkeldar80@gmail.com'],
+	cc: ['ha9.0bib90@gmail.com'],
         subject: 'Reservation de chambre',
-        html: `
-        <div><h2>Les informations du client</h2>
-        <pre>Nom: ${req.body.nom}</pre>
-        <pre>Prenom: ${req.body.prenom}</pre>
-        <pre>la date d'arriver: ${req.body.checkin}</pre>
-        <pre>la date de depart: ${req.body.checkout}</pre>
-        <pre>le nom de la chambre: ${req.body.room}</pre>
-        <pre>Type de la chambre: ${req.body.type}</pre>
-        <pre>Le nombre de personne: ${req.body.number_persone}</pre>
-        <pre>Email du client: ${req.body.email}</pre>
-        <pre>Le numero de téléphone: ${req.body.phone_number}</pre>
-        </div>
-        
-       `
+        text: text
+    //     `
+    //     <div><h2>Les informations du client</h2>
+    //     <pre>Nom: ${req.body.nom}</pre>
+    //     <pre>Prenom: ${req.body.prenom}</pre>
+    //     <pre>la date d'arriver: ${req.body.checkin}</pre>
+    //     <pre>la date de depart: ${req.body.checkout}</pre>
+    //     <pre>le nom de la chambre: ${req.body.room}</pre>
+    //     <pre>Type de la chambre: ${req.body.type}</pre>
+    //     <pre>Le nombre de personne: ${req.body.number_persone}</pre>
+    //     <pre>Email du client: ${req.body.email}</pre>
+    //     <pre>Le numero de téléphone: ${req.body.phone_number}</pre>
+    //     </div>
+    //    `
     }
 
 
@@ -1365,7 +1366,7 @@ exports.getListReservationRoom = async(req, res) => {
       filter_type.push(element.title)
   });
      if (room !== 'all') {
-        filter_type=[room]
+        filter_type=[room, 'Toute la villa']
      }
     await reservationModel.find({
         type: 'room',
@@ -1419,6 +1420,4 @@ function dateRange(startDate, endDate, steps) {
         currentDate.setUTCDate(currentDate.getUTCDate() + steps);
     }
     return dateArray;
-
-
 }
