@@ -83,7 +83,7 @@ exports.createReservation = async(req, res) => {
     const { startDate, endDate } = req.body;
 
 
-
+console.log('api called')
     if (!req.body) {
         res.status(400).json({ message: 'content can not be empty' });
     }
@@ -232,7 +232,49 @@ exports.createReservation = async(req, res) => {
                             filtercolor: req.body.backgroundColor
                         })
                         newRes.save().then(data => {
-                            reservationEnligneAndSendEmail(req,res)
+                            
+                            let mailOption = {
+                                from: process.env.EMAIL,
+                                to: ['sabrigarrach10@gmail.com'],
+                            //cc: ['islemhmz1998@gmail.com'],
+                                subject: 'Reservation de chambre',
+                                html:
+                                `
+                                <div><h2>Les informations du client</h2>
+                                <pre>Nom: ${req.body.first_name}</pre>
+                                <pre>Prenom: ${req.body.last_name}</pre>
+                                <pre>la date d'arriver: ${req.body.startDate}</pre>
+                                <pre>la date de depart: ${req.body.endDate}</pre>
+                                <pre>le nom de la chambre: ${req.body.name}</pre>
+                                <pre>Type de la chambre: ${req.body.roomType}</pre>
+                                <pre>Le nombre de personne: ${req.body.number_persons}</pre>
+                                <pre>Email du client: ${req.body.email}</pre>
+                                <pre>Le numero de téléphone: ${req.body.number_phone}</pre>
+                                </div>
+                               `
+                            }
+                        
+                        
+                            let transporter = nodemailer.createTransport({
+                         
+                                host: "ssl0.ovh.net",
+                                port: 465, secure: true,
+                                auth: {
+                                user: process.env.EMAIL,
+                                pass: process.env.PASSWORD }
+                        });
+                        
+                        
+                            transporter.sendMail(mailOption, function(err, info) {
+                                if (err) {
+                                    // console.log('Error', err);
+                                    return res.status(400).json({ message: err, x:[process.env.PASSWORD, process.env.EMAIL] })
+                                } else {
+                                    //  console.log('Message sent')
+                                    return res.status(200).json({ message: 'reservation fait avec success!' })
+                                }
+                            })
+                        
                             res.status(201).json({
                                 message: "chambre reserver avec success",
                                 data: data
@@ -1240,21 +1282,21 @@ exports.reservationEnligneAndSendEmail = async(req, res) => {
      console.log("email to sent>>>", req.body)
     let mailOption = {
         from: process.env.EMAIL,
-        to: ['ichkeldar80@gmail.com'],
-	cc: ['ha9.0bib90@gmail.com'],
+        to: [`${req.body.email}`],
+	//cc: ['islemhmz1998@gmail.com'],
         subject: 'Reservation de chambre',
-        html: 
+        html:
         `
         <div><h2>Les informations du client</h2>
-        <pre>Nom: ${req.body.nom}</pre>
-         <pre>Prenom: ${req.body.prenom}</pre>
-         <pre>la date d'arriver: ${req.body.checkin}</pre>
-         <pre>la date de depart: ${req.body.checkout}</pre>
-         <pre>le nom de la chambre: ${req.body.room}</pre>
-         <pre>Type de la chambre: ${req.body.type}</pre>
-         <pre>Le nombre de personne: ${req.body.number_persone}</pre>
-         <pre>Email du client: ${req.body.email}</pre>
-         <pre>Le numero de téléphone: ${req.body.phone_number}</pre>
+        <pre>Nom: ${req.body.first_name}</pre>
+        <pre>Prenom: ${req.body.last_name}</pre>
+        <pre>la date d'arriver: ${req.body.startDate}</pre>
+        <pre>la date de depart: ${req.body.endDate}</pre>
+        <pre>le nom de la chambre: ${req.body.name}</pre>
+        <pre>Type de la chambre: ${req.body.roomType}</pre>
+        <pre>Le nombre de personne: ${req.body.number_persons}</pre>
+        <pre>Email du client: ${req.body.email}</pre>
+        <pre>Le numero de téléphone: ${req.body.number_phone}</pre>
         </div>
        `
     }
@@ -1263,10 +1305,10 @@ exports.reservationEnligneAndSendEmail = async(req, res) => {
     let transporter = nodemailer.createTransport({
  
 	    host: "ssl0.ovh.net",
-   port: 465, secure: true,
-    auth: {
+        port: 465, secure: true,
+        auth: {
         user: process.env.EMAIL,
-       pass: process.env.PASSWORD    }
+        pass: process.env.PASSWORD }
 });
 
 
@@ -1419,4 +1461,6 @@ function dateRange(startDate, endDate, steps) {
         currentDate.setUTCDate(currentDate.getUTCDate() + steps);
     }
     return dateArray;
+
+
 }
