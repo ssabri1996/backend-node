@@ -1055,6 +1055,9 @@ exports.deletePersoMenu = async(req, res) => {
 module.exports.getRoomsByNames = async(req, res) => {
     const { name } = req.query;
     if (name) {
+	    	if ( name ==='Cicogne'){
+        name = 'Cigogne'
+    }
         await reservationModel.find({
                 "roomName": {$in:[name, ]} ,
                 "isActive": true,
