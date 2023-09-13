@@ -9,8 +9,6 @@ on:
 
 jobs:
   build:
-  
-  
     runs-on: ubuntu-latest
 
     strategy:
@@ -37,7 +35,7 @@ jobs:
       - name: SFTP Deploy
         uses: wlixcc/SFTP-Deploy-Action@v1.2.1
         with:
-          username: ${{ secrets.SERVER_USER }}
+          #username: ${{ secrets.SERVER_USER }}
           server: ${{ secrets.VPS_SERVER }}
           port: 22 # default is 22
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
